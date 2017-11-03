@@ -43,6 +43,11 @@ namespace 参数化Http请求
             comboBox1.SelectedIndex = 0;
 
         }
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button12_Click(object sender, EventArgs e)
         {
 
