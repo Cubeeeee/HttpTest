@@ -55,6 +55,62 @@ namespace 参数化Http请求
         #endregion
  
         #region 请求相关
+
+        public HttpInfo CreateHttp()
+        {
+            HttpInfo info = new HttpInfo();
+            #region 请求头配置
+            info = new HttpInfo(textBox1.Text);
+            if (!String.IsNullOrEmpty(textBox2.Text))
+            {
+                info.PostData = textBox2.Text;
+            }
+            info.Host = textBox17.Text;
+            info.User_Agent = textBox3.Text;
+            info.Referer = textBox4.Text;
+            info.ContentType = textBox5.Text;
+            info.Accept = textBox6.Text;
+            info.AcceptEncoding = textBox7.Text;
+            info.Ip = textBox19.Text;
+            info.CheckUrl = checkBox7.Checked;
+            String httpversion = Convert.ToString(comboBox1.SelectedItem);
+            switch (httpversion)
+            {
+                case "1.0":
+                    info.ProtocolVersion = HttpVersion.Version10;
+                    break;
+                case "1.1":
+                    info.ProtocolVersion = HttpVersion.Version11;
+                    break;
+            }
+            if (!String.IsNullOrEmpty(textBox8.Text))
+            {
+                info.Encoding = Encoding.GetEncoding(textBox8.Text);
+            }
+            if (!String.IsNullOrEmpty(textBox11.Text))
+            {
+                info.Cookie = new CookieString(textBox11.Text, true);
+            }
+            else
+            {
+                info.CC = new CookieContainer();
+            }
+            info.AllowAutoRedirect = checkBox1.Checked;
+            info.KeepLive = checkBox2.Checked;
+            if (checkBox3.Checked)
+            {
+                info.Header.Add("X-Requested-With", "XMLHttpRequest");
+            }
+            foreach (var item in HeadDic)
+            {
+                info.Header.Add(item.Key, item.Value);
+            }
+            #endregion
+
+            return info;
+            
+        }
+
         /// <summary>
         /// 重置
         /// </summary>
@@ -120,51 +176,8 @@ namespace 参数化Http请求
             #endregion
 
             #region 请求头配置
-            info = new HttpInfo(textBox1.Text);
-            if (!String.IsNullOrEmpty(textBox2.Text))
-            {
-                info.PostData = textBox2.Text;
-            }
-            info.Host = textBox17.Text;
-            info.User_Agent = textBox3.Text;
-            info.Referer = textBox4.Text;
-            info.ContentType = textBox5.Text;
-            info.Accept = textBox6.Text;
-            info.AcceptEncoding = textBox7.Text;
-            info.Ip = textBox19.Text;
-            info.CheckUrl = checkBox7.Checked;
-            String httpversion = Convert.ToString(comboBox1.SelectedItem);
-            switch (httpversion)
-            {
-                case "1.0":
-                    info.ProtocolVersion = HttpVersion.Version10;
-                    break;
-                case "1.1":
-                    info.ProtocolVersion = HttpVersion.Version11;
-                    break;
-            }
-            if (!String.IsNullOrEmpty(textBox8.Text))
-            {
-                info.Encoding = Encoding.GetEncoding(textBox8.Text);
-            }
-            if (!String.IsNullOrEmpty(textBox11.Text))
-            {
-                info.Cookie = new CookieString(textBox11.Text, true);
-            }
-            else
-            {
-                info.CC = new CookieContainer();
-            }
-            info.AllowAutoRedirect = checkBox1.Checked;
-            info.KeepLive = checkBox2.Checked;
-            if (checkBox3.Checked)
-            {
-                info.Header.Add("X-Requested-With", "XMLHttpRequest");
-            }
-            foreach (var item in HeadDic)
-            {
-                info.Header.Add(item.Key, item.Value);
-            }
+            info = CreateHttp();
+          
             #endregion
 
      
@@ -228,40 +241,12 @@ namespace 参数化Http请求
             tabPage5.Controls.Clear();
             html = String.Empty;
             JsHtml = String.Empty;
-            info = new HttpInfo(textBox1.Text);
-            if (!String.IsNullOrEmpty(textBox2.Text))
-            {
-                info.PostData = textBox2.Text;
-            }
-            info.Host = textBox17.Text;
-            info.User_Agent = textBox3.Text;
-            info.Referer = textBox4.Text;
-            info.ContentType = textBox5.Text;
-            info.Accept = textBox6.Text;
-            info.AcceptEncoding = textBox7.Text;
-            if (!String.IsNullOrEmpty(textBox8.Text))
-            {
-                info.Encoding = Encoding.GetEncoding(textBox8.Text);
-            }
-            if (!String.IsNullOrEmpty(textBox11.Text))
-            {
-                info.Cookie = new CookieString(textBox11.Text);
 
-            }
-            else
-            {
-                info.CC = new CookieContainer();
-            }
-            info.AllowAutoRedirect = checkBox1.Checked;
-            info.KeepLive = checkBox2.Checked;
-            if (checkBox3.Checked)
-            {
-                info.Header.Add("X-Requested-With", "XMLHttpRequest");
-            }
-            foreach (var item in HeadDic)
-            {
-                info.Header.Add(item.Key, item.Value);
-            }
+
+            #region 请求头配置
+            info = CreateHttp();
+
+            #endregion
 
             try
             {
@@ -351,7 +336,11 @@ namespace 参数化Http请求
         private void button11_Click(object sender, EventArgs e)
         {
             GC.Collect();
-            info = new HttpInfo();
+
+            #region 请求头配置
+            info = CreateHttp();
+            #endregion
+
             tabPage1.Controls.Clear();
             String checkurl = ".+\\..+";
             if (String.IsNullOrEmpty(textBox1.Text))
@@ -379,7 +368,7 @@ namespace 参数化Http请求
             sf.FileName = arr[arr.Length - 1];
             if (sf.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if (HttpMethod.DownLoadFile(textBox1.Text, sf.FileName))
+                if (HttpMethod.DownLoadFile_ABPath(info, sf.FileName))
                 {
                     MessageBox.Show("下载成功");
                 }
