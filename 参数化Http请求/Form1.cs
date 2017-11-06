@@ -73,6 +73,10 @@ namespace 参数化Http请求
             info.AcceptEncoding = textBox7.Text;
             info.Ip = textBox19.Text;
             info.CheckUrl = checkBox7.Checked;
+            if(checkBox8.Checked)
+            {
+                info.Expect100Continue = true;
+            }
             String httpversion = Convert.ToString(comboBox1.SelectedItem);
             switch (httpversion)
             {
