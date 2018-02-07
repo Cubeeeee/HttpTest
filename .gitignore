@@ -154,3 +154,5 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/.vs/参数化Http请求/v15/Server/sqlite3
+/packages/DotRas.for.Win7.1.3.0

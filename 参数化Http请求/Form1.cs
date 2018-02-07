@@ -66,6 +66,7 @@ namespace 参数化Http请求
                 info.PostData = textBox2.Text;
             }
             info.Host = textBox17.Text;
+            info.IgnoreWebException = checkBox9.Checked;
             info.User_Agent = textBox3.Text;
             info.Referer = textBox4.Text;
             info.ContentType = textBox5.Text;
@@ -81,10 +82,10 @@ namespace 参数化Http请求
             switch (httpversion)
             {
                 case "1.0":
-                    info.ProtocolVersion = HttpVersion.Version10;
+                    info.ProtocolVersion =    ProtocolVersionEnum.V10;
                     break;
                 case "1.1":
-                    info.ProtocolVersion = HttpVersion.Version11;
+                    info.ProtocolVersion = ProtocolVersionEnum.V11;
                     break;
             }
             if (!String.IsNullOrEmpty(textBox8.Text))
@@ -417,17 +418,17 @@ namespace 参数化Http请求
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(textBox12.Text))
+            if (String.IsNullOrEmpty(textBox9.Text))
             {
                 MessageBox.Show("请输入需要删除的Key");
             }
             String temp = String.Empty;
-            if (HeadDic.TryRemove(textBox12.Text, out temp))
+            if (HeadDic.TryRemove(textBox9.Text, out temp))
             {
                 RemoveListView();
                 FillListView();
             }
-            toolStripStatusLabel1.Text = "删除自定义请求头:" + textBox12.Text;
+            toolStripStatusLabel1.Text = "删除自定义请求头:" + textBox9.Text;
         }
         private void RemoveListView()
         {
@@ -598,7 +599,7 @@ namespace 参数化Http请求
                     richTextBox3.AppendText("Expect100Continue:" + info.Expect100Continue + "\n");
                     richTextBox3.AppendText("ContentLength:" + info.ContentLength + "\n");
                     richTextBox3.AppendText("Timeout:" + info.Timeout + "\n");
-                    richTextBox3.AppendText("WriteTimeout:" + info.WriteTimeout + "\n");
+                    richTextBox3.AppendText("WriteTimeout:" + info.ReadWriteTimeout + "\n");
                     richTextBox3.AppendText("AllowWriteStreamBuffering:" + info.AllowWriteStreamBuffering + "\n");
                     richTextBox3.AppendText("ConnectionLimit:" + info.ConnectionLimit + "\n");
                     richTextBox3.AppendText("ProtocolVersion:" + info.ProtocolVersion.ToString() + "\n");

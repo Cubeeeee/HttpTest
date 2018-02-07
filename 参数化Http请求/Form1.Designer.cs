@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label20 = new System.Windows.Forms.Label();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.textBox19 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,8 +64,6 @@
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.textBox12 = new System.Windows.Forms.TextBox();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -120,9 +121,7 @@
             this.button12 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label20 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -160,6 +159,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.checkBox9);
             this.panel2.Controls.Add(this.checkBox8);
             this.panel2.Controls.Add(this.comboBox1);
             this.panel2.Controls.Add(this.label20);
@@ -194,8 +194,35 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 17);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(544, 496);
+            this.panel2.Size = new System.Drawing.Size(544, 539);
             this.panel2.TabIndex = 0;
+            // 
+            // checkBox8
+            // 
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Location = new System.Drawing.Point(394, 461);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(138, 16);
+            this.checkBox8.TabIndex = 33;
+            this.checkBox8.Text = "Expect 100-continue";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(127, 417);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(403, 20);
+            this.comboBox1.TabIndex = 32;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(13, 420);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(59, 12);
+            this.label20.TabIndex = 31;
+            this.label20.Text = "Http版本:";
             // 
             // checkBox7
             // 
@@ -456,17 +483,15 @@
             this.groupBox2.Controls.Add(this.groupBox4);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox2.Location = new System.Drawing.Point(3, 513);
+            this.groupBox2.Location = new System.Drawing.Point(3, 556);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(544, 206);
+            this.groupBox2.Size = new System.Drawing.Size(544, 163);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "自定义头配置";
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.label12);
-            this.groupBox4.Controls.Add(this.textBox12);
             this.groupBox4.Controls.Add(this.textBox10);
             this.groupBox4.Controls.Add(this.textBox9);
             this.groupBox4.Controls.Add(this.label10);
@@ -474,47 +499,31 @@
             this.groupBox4.Controls.Add(this.button4);
             this.groupBox4.Controls.Add(this.button3);
             this.groupBox4.Controls.Add(this.button2);
-            this.groupBox4.Location = new System.Drawing.Point(284, 19);
+            this.groupBox4.Location = new System.Drawing.Point(281, 20);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(260, 188);
+            this.groupBox4.Size = new System.Drawing.Size(260, 143);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "操作";
             // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(22, 128);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(29, 12);
-            this.label12.TabIndex = 8;
-            this.label12.Text = "Key:";
-            // 
-            // textBox12
-            // 
-            this.textBox12.Location = new System.Drawing.Point(72, 125);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(161, 21);
-            this.textBox12.TabIndex = 7;
-            // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(72, 59);
+            this.textBox10.Location = new System.Drawing.Point(179, 20);
             this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(161, 21);
+            this.textBox10.Size = new System.Drawing.Size(75, 21);
             this.textBox10.TabIndex = 6;
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(72, 20);
+            this.textBox9.Location = new System.Drawing.Point(52, 20);
             this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(161, 21);
+            this.textBox9.Size = new System.Drawing.Size(75, 21);
             this.textBox9.TabIndex = 5;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(22, 62);
+            this.label10.Location = new System.Drawing.Point(132, 23);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(41, 12);
             this.label10.TabIndex = 4;
@@ -523,7 +532,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(22, 23);
+            this.label9.Location = new System.Drawing.Point(17, 23);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(29, 12);
             this.label9.TabIndex = 3;
@@ -531,7 +540,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(72, 158);
+            this.button4.Location = new System.Drawing.Point(179, 107);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 2;
@@ -541,7 +550,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(156, 158);
+            this.button3.Location = new System.Drawing.Point(52, 64);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 1;
@@ -551,7 +560,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(158, 86);
+            this.button2.Location = new System.Drawing.Point(179, 64);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 0;
@@ -562,9 +571,9 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.listViewNF1);
-            this.groupBox3.Location = new System.Drawing.Point(13, 19);
+            this.groupBox3.Location = new System.Drawing.Point(6, 20);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(263, 188);
+            this.groupBox3.Size = new System.Drawing.Size(263, 146);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "已添加";
@@ -579,7 +588,7 @@
             this.listViewNF1.GridLines = true;
             this.listViewNF1.Location = new System.Drawing.Point(3, 17);
             this.listViewNF1.Name = "listViewNF1";
-            this.listViewNF1.Size = new System.Drawing.Size(257, 168);
+            this.listViewNF1.Size = new System.Drawing.Size(257, 126);
             this.listViewNF1.TabIndex = 0;
             this.listViewNF1.UseCompatibleStateImageBehavior = false;
             this.listViewNF1.View = System.Windows.Forms.View.Details;
@@ -686,7 +695,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(597, 451);
+            this.tabPage2.Size = new System.Drawing.Size(620, 485);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "预览";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -699,7 +708,7 @@
             this.tabControl2.Location = new System.Drawing.Point(3, 3);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(591, 445);
+            this.tabControl2.Size = new System.Drawing.Size(614, 479);
             this.tabControl2.TabIndex = 0;
             // 
             // tabPage4
@@ -707,7 +716,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(583, 419);
+            this.tabPage4.Size = new System.Drawing.Size(606, 453);
             this.tabPage4.TabIndex = 0;
             this.tabPage4.Text = "浏览器显示";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -729,7 +738,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(597, 451);
+            this.tabPage3.Size = new System.Drawing.Size(620, 485);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "抽取";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -739,9 +748,9 @@
             this.groupBox7.Controls.Add(this.groupBox11);
             this.groupBox7.Controls.Add(this.groupBox10);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox7.Location = new System.Drawing.Point(3, 118);
+            this.groupBox7.Location = new System.Drawing.Point(3, 152);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(591, 330);
+            this.groupBox7.Size = new System.Drawing.Size(614, 330);
             this.groupBox7.TabIndex = 1;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Xpath";
@@ -752,7 +761,7 @@
             this.groupBox11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox11.Location = new System.Drawing.Point(279, 17);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(309, 310);
+            this.groupBox11.Size = new System.Drawing.Size(332, 310);
             this.groupBox11.TabIndex = 1;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "输出";
@@ -762,7 +771,7 @@
             this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox2.Location = new System.Drawing.Point(3, 17);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(303, 290);
+            this.richTextBox2.Size = new System.Drawing.Size(326, 290);
             this.richTextBox2.TabIndex = 1;
             this.richTextBox2.Text = "";
             // 
@@ -886,7 +895,7 @@
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox6.Location = new System.Drawing.Point(3, 3);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(591, 330);
+            this.groupBox6.Size = new System.Drawing.Size(614, 330);
             this.groupBox6.TabIndex = 0;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Regex";
@@ -897,7 +906,7 @@
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox9.Location = new System.Drawing.Point(279, 17);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(309, 310);
+            this.groupBox9.Size = new System.Drawing.Size(332, 310);
             this.groupBox9.TabIndex = 1;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "输出";
@@ -907,7 +916,7 @@
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(3, 17);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(303, 290);
+            this.richTextBox1.Size = new System.Drawing.Size(326, 290);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -986,7 +995,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(597, 451);
+            this.tabPage6.Size = new System.Drawing.Size(620, 485);
             this.tabPage6.TabIndex = 3;
             this.tabPage6.Text = "请求头";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -996,7 +1005,7 @@
             this.richTextBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox3.Location = new System.Drawing.Point(3, 3);
             this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.Size = new System.Drawing.Size(591, 445);
+            this.richTextBox3.Size = new System.Drawing.Size(614, 479);
             this.richTextBox3.TabIndex = 0;
             this.richTextBox3.Text = "";
             // 
@@ -1071,32 +1080,15 @@
             this.panel1.Size = new System.Drawing.Size(634, 722);
             this.panel1.TabIndex = 5;
             // 
-            // label20
+            // checkBox9
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(13, 420);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(59, 12);
-            this.label20.TabIndex = 31;
-            this.label20.Text = "Http版本:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(127, 417);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(403, 20);
-            this.comboBox1.TabIndex = 32;
-            // 
-            // checkBox8
-            // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(394, 461);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(138, 16);
-            this.checkBox8.TabIndex = 33;
-            this.checkBox8.Text = "Expect 100-continue";
-            this.checkBox8.UseVisualStyleBackColor = true;
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Location = new System.Drawing.Point(12, 498);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(96, 16);
+            this.checkBox9.TabIndex = 34;
+            this.checkBox9.Text = "忽略Http错误";
+            this.checkBox9.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1187,8 +1179,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
@@ -1240,6 +1230,7 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox checkBox9;
     }
 }
 
