@@ -61,10 +61,11 @@ namespace 参数化Http请求
             HttpInfo info = new HttpInfo();
             #region 请求头配置
             info = new HttpInfo(textBox1.Text);
-            if (!String.IsNullOrEmpty(textBox2.Text))
+            if (!String.IsNullOrEmpty(richTextBox4.Text))
             {
-                info.PostData = textBox2.Text;
+                info.PostData = richTextBox4.Text;
             }
+            info.UseSystemProxy = checkBox10.Checked;
             info.Host = textBox17.Text;
             info.IgnoreWebException = checkBox9.Checked;
             info.User_Agent = textBox3.Text;
@@ -72,7 +73,23 @@ namespace 参数化Http请求
             info.ContentType = textBox5.Text;
             info.Accept = textBox6.Text;
             info.AcceptEncoding = textBox7.Text;
-            info.Ip = textBox19.Text;
+            if(!String.IsNullOrEmpty(textBox19.Text))
+            {
+                var arr = textBox19.Text.Split('|');
+                if(arr.Length>0)
+                {
+                    info.Ip = arr[0];
+                }
+                if (arr.Length > 1)
+                {
+                    info.Proxy_UserName = arr[1];
+                }
+                if (arr.Length > 2)
+                {
+                    info.Proxy_PassWord = arr[2];
+                }
+            }
+
             info.CheckUrl = checkBox7.Checked;
             if(checkBox8.Checked)
             {
@@ -126,7 +143,7 @@ namespace 参数化Http请求
 
             button4_Click(null, null);
             textBox1.Clear();
-            textBox2.Clear();
+            richTextBox4.Clear();
             textBox3.Text = "Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.04";
             textBox4.Clear();
             textBox5.Text = "application/x-www-form-urlencoded; charset=UTF-8";
@@ -176,7 +193,7 @@ namespace 参数化Http请求
             #endregion
 
             #region 状态显示
-            toolStripStatusLabel1.Text = String.Format("以{0}方式请求{1}......", String.IsNullOrEmpty(textBox2.Text) ? "GET" : "POST", textBox1.Text);
+            toolStripStatusLabel1.Text = String.Format("以{0}方式请求{1}......", String.IsNullOrEmpty(richTextBox4.Text) ? "GET" : "POST", textBox1.Text);
             
             #endregion
 
@@ -212,7 +229,7 @@ namespace 参数化Http请求
             box1.Text = JsHtml;
             box1.Dock = DockStyle.Fill;
             tabPage5.Controls.Add(box1);
-            toolStripStatusLabel1.Text = String.Format("以{0}方式请求{1}完毕", String.IsNullOrEmpty(textBox2.Text) ? "GET" : "POST", textBox1.Text);
+            toolStripStatusLabel1.Text = String.Format("以{0}方式请求{1}完毕", String.IsNullOrEmpty(richTextBox4.Text) ? "GET" : "POST", textBox1.Text);
         }
 
         /// <summary>
@@ -278,17 +295,24 @@ namespace 参数化Http请求
         /// <param name="e"></param>
         private void button8_Click(object sender, EventArgs e)
         {
-            Stopwatch watch = new Stopwatch();
-            int time = 0;
-            watch.Start();
-            while (watch.ElapsedMilliseconds < 5000)
-            {
-                toolStripStatusLabel2.Text = "当前第" + (time++).ToString() + "次";
-                button5_Click(null, null);
-            }
-            watch.Stop();
-            toolStripStatusLabel2.Text = "合计请求" + time.ToString() + "次";
+            this.tabPage1.Controls.Clear();
+            Form2 form2 = new Form2();
+            form2.ConfigFinish += new  Form2.ConfigFinishEventHandler(ConfigFinishFunc);
+            form2.FormClosed += new FormClosedEventHandler(ChildFormClosed);
+            this.Enabled = false;
+            form2.Show();
         }
+
+        private void ConfigFinishFunc(HttpConfig config)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ChildFormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.Enabled = true;
+        }
+
         /// <summary>
         /// 测试按钮
         /// </summary>
@@ -579,9 +603,9 @@ namespace 参数化Http请求
             if (tabControl1.SelectedIndex == 3)
             {
                 richTextBox3.Clear();
-                richTextBox3.AppendText("Method:" + (String.IsNullOrEmpty(textBox2.Text) ? "GET" : "POST") + "\n");
+                richTextBox3.AppendText("Method:" + (String.IsNullOrEmpty(richTextBox4.Text) ? "GET" : "POST") + "\n");
                 richTextBox3.AppendText("RequesrUrl:" + textBox1.Text + "\n");
-                richTextBox3.AppendText("Postdata:" + textBox2.Text + "\n");
+                richTextBox3.AppendText("Postdata:" + richTextBox4.Text + "\n");
                 richTextBox3.AppendText("UA:" + textBox3.Text + "\n");
                 richTextBox3.AppendText("Referer:" + textBox4.Text + "\n");
                 richTextBox3.AppendText("Content-Tyep:" + textBox5.Text + "\n");
@@ -601,7 +625,7 @@ namespace 参数化Http请求
                     richTextBox3.AppendText("Timeout:" + info.Timeout + "\n");
                     richTextBox3.AppendText("WriteTimeout:" + info.ReadWriteTimeout + "\n");
                     richTextBox3.AppendText("AllowWriteStreamBuffering:" + info.AllowWriteStreamBuffering + "\n");
-                    richTextBox3.AppendText("ConnectionLimit:" + info.ConnectionLimit + "\n");
+                    richTextBox3.AppendText("ConnectionLimit:" + HttpInfo.ConnectionLimit + "\n");
                     richTextBox3.AppendText("ProtocolVersion:" + info.ProtocolVersion.ToString() + "\n");
                 }
             }
@@ -678,5 +702,20 @@ namespace 参数化Http请求
             toolStripStatusLabel1.Text = checkBox3.Checked ? "XML-Request开" : "XML-Request关";
         }
         #endregion
+
+        private void checkBox10_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void textBox19_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(this.textBox19.Text))
+            {
+                this.textBox19.Text = "IP地址:端口号|代理IP用户名|代理IP密码(用户名和密码选填)";
+                this.textBox19.SelectAll();
+            }
+        }
     }
 }

@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.checkBox10 = new System.Windows.Forms.CheckBox();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label20 = new System.Windows.Forms.Label();
@@ -51,7 +54,6 @@
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -121,7 +123,6 @@
             this.button12 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -159,6 +160,8 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.richTextBox4);
+            this.panel2.Controls.Add(this.checkBox10);
             this.panel2.Controls.Add(this.checkBox9);
             this.panel2.Controls.Add(this.checkBox8);
             this.panel2.Controls.Add(this.comboBox1);
@@ -180,7 +183,6 @@
             this.panel2.Controls.Add(this.textBox11);
             this.panel2.Controls.Add(this.textBox1);
             this.panel2.Controls.Add(this.label11);
-            this.panel2.Controls.Add(this.textBox2);
             this.panel2.Controls.Add(this.textBox8);
             this.panel2.Controls.Add(this.textBox3);
             this.panel2.Controls.Add(this.label8);
@@ -196,6 +198,35 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(544, 539);
             this.panel2.TabIndex = 0;
+            // 
+            // richTextBox4
+            // 
+            this.richTextBox4.Location = new System.Drawing.Point(127, 41);
+            this.richTextBox4.Name = "richTextBox4";
+            this.richTextBox4.Size = new System.Drawing.Size(403, 21);
+            this.richTextBox4.TabIndex = 36;
+            this.richTextBox4.Text = "";
+            // 
+            // checkBox10
+            // 
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.Location = new System.Drawing.Point(127, 498);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(96, 16);
+            this.checkBox10.TabIndex = 35;
+            this.checkBox10.Text = "使用系统代理";
+            this.checkBox10.UseVisualStyleBackColor = true;
+            this.checkBox10.CheckedChanged += new System.EventHandler(this.checkBox10_CheckedChanged);
+            // 
+            // checkBox9
+            // 
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Location = new System.Drawing.Point(12, 498);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(96, 16);
+            this.checkBox9.TabIndex = 34;
+            this.checkBox9.Text = "忽略Http错误";
+            this.checkBox9.UseVisualStyleBackColor = true;
             // 
             // checkBox8
             // 
@@ -242,6 +273,7 @@
             this.textBox19.Name = "textBox19";
             this.textBox19.Size = new System.Drawing.Size(405, 21);
             this.textBox19.TabIndex = 29;
+            this.textBox19.Click += new System.EventHandler(this.textBox19_Click);
             this.textBox19.TextChanged += new System.EventHandler(this.textBox19_TextChanged);
             // 
             // label1
@@ -373,14 +405,6 @@
             this.label11.Size = new System.Drawing.Size(47, 12);
             this.label11.TabIndex = 21;
             this.label11.Text = "Cookie:";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(127, 41);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(403, 21);
-            this.textBox2.TabIndex = 8;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // textBox8
             // 
@@ -630,7 +654,7 @@
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(120, 50);
             this.button8.TabIndex = 25;
-            this.button8.Text = "访问5秒";
+            this.button8.Text = "并发请求";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
@@ -726,7 +750,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(583, 419);
+            this.tabPage5.Size = new System.Drawing.Size(606, 453);
             this.tabPage5.TabIndex = 1;
             this.tabPage5.Text = "执行Js后源代码";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -1052,6 +1076,7 @@
             // 
             // button12
             // 
+            this.button12.Enabled = false;
             this.button12.Location = new System.Drawing.Point(193, 112);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(120, 50);
@@ -1079,16 +1104,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(634, 722);
             this.panel1.TabIndex = 5;
-            // 
-            // checkBox9
-            // 
-            this.checkBox9.AutoSize = true;
-            this.checkBox9.Location = new System.Drawing.Point(12, 498);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(96, 16);
-            this.checkBox9.TabIndex = 34;
-            this.checkBox9.Text = "忽略Http错误";
-            this.checkBox9.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -1150,7 +1165,6 @@
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
@@ -1231,6 +1245,8 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.RichTextBox richTextBox4;
     }
 }
 
