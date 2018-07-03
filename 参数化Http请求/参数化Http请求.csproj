@@ -38,17 +38,14 @@
     <ApplicationIcon>bitbug_favico1n.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExtractLib, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>H:\工具库10180619\ExtractLib.dll</HintPath>
+    <Reference Include="ExtractLib">
+      <HintPath>DLL\ExtractLib.dll</HintPath>
     </Reference>
-    <Reference Include="HttpToolsLib, Version=1.1.2.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>H:\工具库10180619\HttpToolsLib.dll</HintPath>
+    <Reference Include="HttpToolsLib">
+      <HintPath>DLL\HttpToolsLib.dll</HintPath>
     </Reference>
-    <Reference Include="PControlsLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>H:\工具库10180619\PControlsLib.dll</HintPath>
+    <Reference Include="PControlsLib">
+      <HintPath>DLL\PControlsLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
