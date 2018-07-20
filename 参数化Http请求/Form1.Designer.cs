@@ -123,6 +123,7 @@
             this.button12 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button13 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -1059,6 +1060,7 @@
             // 
             // groupBox13
             // 
+            this.groupBox13.Controls.Add(this.button13);
             this.groupBox13.Controls.Add(this.button12);
             this.groupBox13.Controls.Add(this.button11);
             this.groupBox13.Controls.Add(this.button10);
@@ -1104,6 +1106,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(634, 722);
             this.panel1.TabIndex = 5;
+            // 
+            // button13
+            // 
+            this.button13.Location = new System.Drawing.Point(47, 112);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(120, 53);
+            this.button13.TabIndex = 32;
+            this.button13.Text = "停止循环";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
             // Form1
             // 
@@ -1154,7 +1166,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox checkBox3;
@@ -1187,7 +1199,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.Button button5;
+        public System.Windows.Forms.Button button5;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
@@ -1219,7 +1231,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox textBox17;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Button button8;
+        public System.Windows.Forms.Button button8;
         private System.Windows.Forms.TextBox textBox18;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TabControl tabControl2;
@@ -1229,17 +1241,17 @@
         private System.Windows.Forms.GroupBox groupBox12;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button10;
+        public System.Windows.Forms.Button button9;
+        public System.Windows.Forms.Button button10;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox textBox19;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Button button11;
+        public System.Windows.Forms.Button button11;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.RichTextBox richTextBox3;
-        private System.Windows.Forms.Button button12;
+        public System.Windows.Forms.Button button12;
         private System.Windows.Forms.CheckBox checkBox7;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label20;
@@ -1247,6 +1259,7 @@
         private System.Windows.Forms.CheckBox checkBox9;
         private System.Windows.Forms.CheckBox checkBox10;
         private System.Windows.Forms.RichTextBox richTextBox4;
+        public System.Windows.Forms.Button button13;
     }
 }
 

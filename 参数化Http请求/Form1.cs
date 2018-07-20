@@ -3,11 +3,14 @@ using HttpToolsLib;
 using PControlsLib;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace 参数化Http请求
 {
@@ -16,10 +19,38 @@ namespace 参数化Http请求
         #region 全局变量
         String[] httpvarr = { "1.0","1.1"};
         HttpInfo info;
+        int finishcount = 0;
+        //object locker = new object();
+        object looplock = new object();
         ConcurrentDictionary<String, String> HeadDic = new ConcurrentDictionary<string, string>();
+        ConcurrentStack<string> ipstack = new ConcurrentStack<string>();
         String html = String.Empty;
         String JsHtml = String.Empty;
-
+        #region 
+        String RequestUrl = String.Empty;
+        String PostDate = String.Empty;
+        bool UserSystemProxy = false;
+        String Host = String.Empty;
+        bool IgnoreWebException = false;
+        String User_Agent = String.Empty;
+        String Referer = String.Empty;
+        String ContentType = String.Empty;
+        String Accept = String.Empty;
+        String AcceptEncoding = String.Empty;
+        String IPDetails = String.Empty;
+        bool CheckUrl = false;
+        bool Expect100Continue = false;
+        String SelectItem = String.Empty;
+        String NewEncoding = String.Empty;
+        String Cookie = String.Empty;
+        bool AllowAutoRedirect = false;
+        bool KeepLive = false;
+        bool XmlHttpRequest = false;
+        bool loopget = false;
+        #endregion
+        RichTextBox box1 = new RichTextBox();
+        delegate void UpRichText();
+        delegate void UpRichTextBox(object txt);
         #endregion
 
         #region 初始化相关
@@ -55,7 +86,24 @@ namespace 参数化Http请求
         #endregion
  
         #region 请求相关
-
+        /// <summary>
+        /// 通过API接口获取代理Ip
+        /// </summary>
+        /// <param name="proxyapi"></param>
+        /// <returns></returns>
+        public List<string> GetIp(String proxyapi)
+        {
+            List<string> iplist = new List<string>();
+            String ip = String.Empty;
+            String Html = String.Empty;
+            Html = HttpMethod.FastGetMethod(proxyapi);
+            iplist = RegexMethod.GetMutResult("[0-9]+?.[0-9]+?.[0-9]+?.[0-9]+?:[0-9]+", Html);
+            return iplist;
+        }
+        /// <summary>
+        /// 配置Http请求头
+        /// </summary>
+        /// <returns></returns>
         public HttpInfo CreateHttp()
         {
             HttpInfo info = new HttpInfo();
@@ -99,7 +147,7 @@ namespace 参数化Http请求
             switch (httpversion)
             {
                 case "1.0":
-                    info.ProtocolVersion =    ProtocolVersionEnum.V10;
+                    info.ProtocolVersion = ProtocolVersionEnum.V10;
                     break;
                 case "1.1":
                     info.ProtocolVersion = ProtocolVersionEnum.V11;
@@ -132,7 +180,80 @@ namespace 参数化Http请求
             return info;
             
         }
-
+        /// <summary>
+        /// 配置并发请求头
+        /// </summary>
+        /// <returns></returns>
+        public HttpInfo CreateThreadHttp()
+        {
+            HttpInfo taskinfo = new HttpInfo();
+            taskinfo.RequestUrl = RequestUrl;
+            if (!String.IsNullOrEmpty(PostDate))
+            {
+                taskinfo.PostData = PostDate;
+            }
+            taskinfo.UseSystemProxy = UserSystemProxy;
+            taskinfo.Host = Host;
+            taskinfo.IgnoreWebException = IgnoreWebException;
+            taskinfo.User_Agent = User_Agent;
+            taskinfo.Referer = Referer;
+            taskinfo.ContentType = ContentType;
+            taskinfo.Accept = Accept;
+            taskinfo.AcceptEncoding = AcceptEncoding;
+            if (!String.IsNullOrEmpty(IPDetails))
+            {
+                var arr = IPDetails.Split('|');
+                if (arr.Length > 0)
+                {
+                    taskinfo.Ip = arr[0];
+                }
+                if (arr.Length > 1)
+                {
+                    taskinfo.Proxy_UserName = arr[1];
+                }
+                if (arr.Length > 2)
+                {
+                    taskinfo.Proxy_PassWord = arr[2];
+                }
+            }
+            taskinfo.CheckUrl = CheckUrl;
+            if (Expect100Continue)
+            {
+                taskinfo.Expect100Continue = true;
+            }
+            switch (SelectItem)
+            {
+                case "1.0":
+                    taskinfo.ProtocolVersion = ProtocolVersionEnum.V10;
+                    break;
+                case "1.1":
+                    taskinfo.ProtocolVersion = ProtocolVersionEnum.V11;
+                    break;
+            }
+            if (!String.IsNullOrEmpty(NewEncoding))
+            {
+                taskinfo.Encoding = Encoding.GetEncoding(NewEncoding);
+            }
+            if (!String.IsNullOrEmpty(Cookie))
+            {
+                taskinfo.Cookie = new CookieString(Cookie, true);
+            }
+            else
+            {
+                taskinfo.CC = new CookieContainer();
+            }
+            taskinfo.AllowAutoRedirect = AllowAutoRedirect;
+            taskinfo.KeepLive = KeepLive;
+            if (XmlHttpRequest)
+            {
+                taskinfo.Header.Add("X-Requested-With", "XMLHttpRequest");
+            }
+            foreach (var item in HeadDic)
+            {
+                taskinfo.Header.Add(item.Key, item.Value);
+            }
+            return taskinfo;
+        }
         /// <summary>
         /// 重置
         /// </summary>
@@ -296,21 +417,313 @@ namespace 参数化Http请求
         private void button8_Click(object sender, EventArgs e)
         {
             this.tabPage1.Controls.Clear();
+            box1 = new RichTextBox();
+            box1.Dock = DockStyle.Fill;
+            box1.SelectionStart = box1.Text.Length;
+            box1.SelectionLength = 0;
+            tabControl1.TabPages[0].Controls.Add(box1);
+            AssignVari();
+            info = CreateHttp();
             Form2 form2 = new Form2();
             form2.ConfigFinish += new  Form2.ConfigFinishEventHandler(ConfigFinishFunc);
             form2.FormClosed += new FormClosedEventHandler(ChildFormClosed);
             this.Enabled = false;
             form2.Show();
+            button5.Enabled = false;
+            button1.Enabled = false;
+            button8.Enabled = false;
+            button10.Enabled = false;
+            button11.Enabled = false;
+        }
+        /// <summary>
+        /// 全局变量赋值
+        /// </summary>
+        private void AssignVari()
+        {
+            RequestUrl = textBox1.Text;
+            PostDate = richTextBox4.Text;
+            UserSystemProxy = checkBox10.Checked;
+            Host = textBox17.Text;
+            IgnoreWebException = checkBox9.Checked;
+            User_Agent = textBox3.Text;
+            Referer = textBox4.Text;
+            ContentType = textBox5.Text;
+            Accept = textBox6.Text;
+            AcceptEncoding = textBox7.Text;
+            IPDetails = textBox19.Text;
+            CheckUrl = checkBox7.Checked;
+            Expect100Continue = checkBox8.Checked;
+            SelectItem = Convert.ToString(comboBox1.SelectedItem);
+            NewEncoding = textBox8.Text;
+            Cookie = textBox11.Text;
+            AllowAutoRedirect = checkBox1.Checked;
+            KeepLive = checkBox2.Checked;
+            XmlHttpRequest = checkBox3.Checked;
         }
 
         private void ConfigFinishFunc(HttpConfig config)
         {
-            throw new NotImplementedException();
+            String RegStr = String.Empty;
+            String proxyapi_url = String.Empty;
+            String XpathStr = String.Empty;
+            int ThreadNum = 0;
+            if (config.Check)
+            {
+                RegStr = config.RegStr;
+            }
+            if (config.CheckXpath)
+            {
+                XpathStr = config.XpathStr;
+            }
+            if (config.ProxyEnable)
+            {
+                proxyapi_url = config.ProxyAPI;
+                Thread ipthread = new Thread(new ThreadStart(delegate {
+                    while (true)
+                    {
+                        if(ipstack.Count == 0)
+                        {
+                            List<string> iplist = GetIp(proxyapi_url);
+                            foreach (var item in iplist)
+                            {
+                                ipstack.Push(item);
+                            }
+                        }
+                        Thread.Sleep(1);
+                    }
+                }));
+                ipthread.IsBackground = true;
+                ipthread.Start();
+            }
+            loopget = config.LoopGet;
+            ThreadNum = config.ThreadNum;
+            Thread[] thread = new Thread[ThreadNum];
+            for(int i = 0; i < ThreadNum; i++)
+            {
+                thread[i] = new Thread(new ThreadStart(delegate {
+                    string nowip = string.Empty;
+                    if (!String.IsNullOrEmpty(proxyapi_url))
+                    {
+                        while (String.IsNullOrEmpty(nowip))
+                        {
+                            if (ipstack.Count > 0)
+                            {
+                                string ip = string.Empty;
+                                if (ipstack.TryPop(out ip))
+                                {
+                                    nowip = ip;
+                                }
+                            }
+                            Thread.Sleep(1);
+                        }
+                    }
+                    RunFunc(XpathStr, RegStr, proxyapi_url, config.TimerEnable, nowip);
+                    while (loopget)
+                    {
+                        RunFunc(XpathStr, RegStr, proxyapi_url, config.TimerEnable, nowip);
+                        Thread.Sleep(1);
+                    }
+                }));
+                thread[i].IsBackground = true;
+                thread[i].Start();
+            }
+            if (!loopget)
+            {
+                button1.Enabled = true;
+                button5.Enabled = true;
+                button8.Enabled = true;
+                button10.Enabled = true;
+                button11.Enabled = true;
+            }        
+        }
+
+        private void RunFunc(string xpathstr,string regstr, string proxyapi_url, bool timeflag,string ip)
+        {
+            UpRichText up = new UpRichText(UpText);
+            UpRichTextBox uptxt = new UpRichTextBox(UpRichTxt);
+            GC.Collect();
+            HttpInfo info_goto = new HttpInfo();
+            info_goto = CreateThreadHttp();
+            if (!String.IsNullOrEmpty(ip))
+            {
+                info_goto.Ip = ip;
+            }
+            #region 请求前检查
+            if (String.IsNullOrEmpty(info.RequestUrl))
+            {
+                MessageBox.Show("请求地址不合法");
+                return;
+            }
+            #endregion
+
+            #region 清空上一次请求内容
+            //tabPage1.Controls.Clear();
+            //tabPage4.Controls.Clear();
+            //tabPage5.Controls.Clear();
+            //String Html = String.Empty;
+            //JsHtml = String.Empty;
+            #endregion
+
+            #region 状态显示
+            this.Invoke(up);
+            #endregion
+            double time = 0;
+            Stopwatch sw = new Stopwatch();
+            if (timeflag)
+            {
+                sw.Start();
+            }
+            String Html = HttpMethod.HttpWork(ref info_goto);
+            if (sw.IsRunning)
+            {
+                sw.Stop();
+                time = sw.Elapsed.TotalSeconds;
+            }
+            String cookie = info_goto.Cookie.ConventToString();
+            String _ip = info_goto.Ip;
+
+            #region 正则判断访问结果
+            if (!String.IsNullOrEmpty(regstr) && String.IsNullOrEmpty(xpathstr))
+            {
+                String regtxt = RegexMethod.GetSingleResult(regstr, Html);
+                String status = String.Empty;
+                String txt = String.Empty;
+                if (String.IsNullOrEmpty(regtxt))
+                {
+                    status = "访问失败";
+                }
+                else
+                {
+                    status = "访问成功";
+                }
+                if (timeflag)
+                {
+                    if (!String.IsNullOrEmpty(proxyapi_url))
+                    {
+                        txt = "返回结果:" + status + "\r\n" + "ret-cookie:" + cookie + "\r\n" + "请求IP:" + _ip + "\r\n" + "请求时间:" + time + "\r\n";
+                    }
+                    else
+                    {
+                        txt = "返回结果:" + status + "\r\n" + "ret-cookie:" + cookie + "\r\n" + "请求时间:" + time + "\r\n";
+                    }
+
+                }
+                else
+                {
+                    if (!String.IsNullOrEmpty(proxyapi_url))
+                    {
+                        txt = "返回结果:" + status + "\r\n" + "ret-cookie:" + cookie + "\r\n" + "请求IP:" + _ip + "\r\n";
+                    }
+                    else
+                    {
+                        txt = "返回结果:" + status + "\r\n" + "ret-cookie:" + cookie + "\r\n";
+                    }
+                }
+                object[] arg = { txt };
+                this.Invoke(uptxt, arg);
+            }
+            #endregion
+
+            #region Xpath判断访问结果
+            if (!String.IsNullOrEmpty(xpathstr) && String.IsNullOrEmpty(regstr))
+            {
+                String regtxt = XpathMethod.GetSingleResult(xpathstr, Html);
+                String status = String.Empty;
+                String txt = String.Empty;
+                if (String.IsNullOrEmpty(regtxt))
+                {
+                    status = "访问失败";
+                }
+                else
+                {
+                    status = "访问成功";
+                }
+                if (timeflag)
+                {
+                    if (!String.IsNullOrEmpty(proxyapi_url))
+                    {
+                        txt = "返回结果:" + status + "\r\n" + "ret-cookie:" + cookie + "\r\n" + "请求IP:" + _ip + "\r\n" + "请求时间:" + time + "\r\n";
+                    }
+                    else
+                    {
+                        txt = "返回结果:" + status + "\r\n" + "ret-cookie:" + cookie + "\r\n" + "请求时间:" + time + "\r\n";
+                    }
+
+                }
+                else
+                {
+                    if (!String.IsNullOrEmpty(proxyapi_url))
+                    {
+                        txt = "返回结果:" + status + "\r\n" + "ret-cookie:" + cookie + "\r\n" + "请求IP:" + _ip + "\r\n";
+                    }
+                    else
+                    {
+                        txt = "返回结果:" + status + "\r\n" + "ret-cookie:" + cookie + "\r\n";
+                    }
+                }
+                object[] arg = { txt };
+                this.Invoke(uptxt, arg);
+            }
+            #endregion
+
+            #region 直接输出结果
+            if (String.IsNullOrEmpty(regstr) && String.IsNullOrEmpty(xpathstr))
+            {
+                String txt = String.Empty;
+                if (timeflag)
+                {
+                    if (!String.IsNullOrEmpty(proxyapi_url))
+                    {
+                        txt = "返回结果:" + Html + "\r\n" + "ret-cookie:" + cookie + "\r\n" + "请求IP:" + _ip + "\r\n" + "请求时间:" + time + "\r\n";
+                    }
+                    else
+                    {
+                        txt = "返回结果:" + Html + "\r\n" + "ret-cookie:" + cookie + "\r\n" + "请求时间:" + time + "\r\n";
+                    }
+
+                }
+                else
+                {
+                    if (!String.IsNullOrEmpty(proxyapi_url))
+                    {
+                        txt = "返回结果:" + Html + "\r\n" + "ret-cookie:" + cookie + "\r\n" + "请求IP:" + _ip + "\r\n";
+                    }
+                    else
+                    {
+                        txt = "返回结果:" + Html + "\r\n" + "ret-cookie:" + cookie + "\r\n";
+                    }
+                }
+                object[] arg = { txt };
+                this.Invoke(uptxt, arg);
+            }
+            #endregion
+
+
+        }
+
+        private void UpRichTxt(object txt)
+        {
+            if(txt != null)
+            {
+                box1.AppendText(txt.ToString());
+                //box1.Focus();
+                box1.ScrollToCaret();
+            }
+        }
+
+        private void UpText()
+        {
+            toolStripStatusLabel1.Text = String.Format("以{0}方式并发请求{1}......", String.IsNullOrEmpty(richTextBox4.Text) ? "GET" : "POST", textBox1.Text);
         }
 
         private void ChildFormClosed(object sender, FormClosedEventArgs e)
         {
             this.Enabled = true;
+            button1.Enabled = true;
+            button5.Enabled = true;
+            button8.Enabled = true;           
+            button10.Enabled = true;
+            button11.Enabled = true;            
         }
 
         /// <summary>
@@ -715,6 +1128,19 @@ namespace 参数化Http请求
             {
                 this.textBox19.Text = "IP地址:端口号|代理IP用户名|代理IP密码(用户名和密码选填)";
                 this.textBox19.SelectAll();
+            }
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            if(loopget)
+            {
+                loopget = false;
+                button1.Enabled = true;
+                button5.Enabled = true;
+                button8.Enabled = true;
+                button10.Enabled = true;
+                button11.Enabled = true;
             }
         }
     }
